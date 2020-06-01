@@ -12,7 +12,7 @@
 
       <v-spacer></v-spacer>
 
-      
+
 
       <v-btn icon>
         <v-badge color="error" overlap>
@@ -53,8 +53,8 @@
                 </v-list-item-content>
             </v-list-item>
 
-            
-            
+
+
             <v-list-item router to="/requests">
 
                     <v-list-item-action>
@@ -93,7 +93,7 @@
                     <v-list-item-title>Pitches</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item router to="/players">
+            <v-list-item router>
                 <v-list-item-action>
                     <v-icon small>mdi-account-group</v-icon>
                 </v-list-item-action>
@@ -113,7 +113,7 @@
 
             </v-list-item>
 
-          
+
 
 
 
@@ -149,7 +149,7 @@
                 </v-tooltip>
             </v-flex>
             <v-flex md-12>
-               
+
                 <v-card color="light-blue darken-4">
                     <v-list>
                         <v-list-item dense>
