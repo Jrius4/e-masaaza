@@ -69,7 +69,7 @@
 
 
             </v-list-item>
-            <v-list-item router>
+            <v-list-item router to="/personels">
                 <v-list-item-action>
                     <v-icon small>fas fa-users</v-icon>
                 </v-list-item-action>
@@ -123,7 +123,7 @@
 
 
             <v-layout row style="">
-            <v-flex md-10>
+            <v-flex md-10 sm-10>
                 <v-list>
                 <v-list-item dense>
                     <v-list-item-avatar class="ml-2">
@@ -141,14 +141,14 @@
             <v-flex md-2>
                 <v-tooltip top>
                     <template v-slot:activator="{on}">
-                        <v-btn text icon v-on="on" class="mt-2">
+                        <v-btn text icon v-on="on" v-on:click="logoutFunc" class="mt-2">
                             <v-icon dark="" right>fas fa-sign-out-alt</v-icon>
                         </v-btn>
                     </template>
                     <span>Exit</span>
                 </v-tooltip>
             </v-flex>
-            <v-flex md-12>
+            <v-flex md-12 sm-10>
 
                 <v-card color="light-blue darken-4">
                     <v-list>
@@ -180,5 +180,11 @@
     data: () => ({
       drawer: false,
     }),
+
+    methods:{
+        logoutFunc(){
+           this.$router.push({name:'login'});
+        }
+    }
   }
 </script>
