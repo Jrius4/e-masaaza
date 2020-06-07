@@ -9,7 +9,7 @@ import Vue from 'vue';
 import axios from 'axios';
 import 'animate.css/animate.min.css';
 import router from './routes/index.js';
-// import store fro./storeNAore';
+import store from './store';
 
 import Form from "./utilities/Form";
 window.Form = Form;
@@ -60,16 +60,20 @@ Vue.use(axios);
 // Vue.component('vue-layout', require('./components/VueLayout.vue').default);
 // Vue.component('profile-component', require('./components/ProfileComponent.vue').default);
 // Vue.component('admin-layout',require('./views/Layout/AdminLayout.vue').default)
-// Vue.component('upload-files', require('./components/UploadFiles.vue').default);
+Vue.component('upload-files', require('./components/common/UploadFiles.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+ Vue.component('v-select-file',require('./components/common/SelectFile.vue').default);
 
-import 'vuetify/dist/vuetify.min.css';
-import '@mdi/font/css/materialdesignicons.css';
-import '@fortawesome/fontawesome-free/css/all.css';
+// import 'vuetify/dist/vuetify.min.css';
+// import '@mdi/font/css/materialdesignicons.css';
+// import '@fortawesome/fontawesome-free/css/all.css';
+import './plugins/base'
+import './plugins/chartist'
+import './plugins/vee-validate'
 import vuetify from './plugins/vuetify';
 
 
@@ -82,6 +86,7 @@ import App from './components/dashboard/App.vue';
 const app = new Vue({
     el: '#app',
     router,
+    store,
     vuetify,
     data:{
         eventBus:new Vue()

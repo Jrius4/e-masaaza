@@ -1,23 +1,16 @@
 <template>
   <section class="mb-12 text-center">
     <h1
-      class="font-weight-light mb-2 headline"
-      v-text="`Vuetify ${heading}`"
+      :class="`font-weight-light mb-2 headline ${color}`"
+      v-text="`${heading}`"
+
     />
 
     <span
       class="font-weight-light subtitle-1"
+      v-if="subtitle!== ''"
     >
-      Please checkout the
-      <a
-        :href="`https://vuetifyjs.com/${link}`"
-        rel="noopener"
-        target="_blank"
-        class="secondary--text"
-        style="text-decoration:none;"
-      >
-        full documentation
-      </a>
+      {{subtitle}}
     </span>
   </section>
 </template>
@@ -28,6 +21,14 @@
 
     props: {
       heading: {
+        type: String,
+        default: '',
+      },
+      subtitle: {
+        type: String,
+        default: '',
+      },
+      color: {
         type: String,
         default: '',
       },

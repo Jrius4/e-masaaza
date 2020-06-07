@@ -44,7 +44,7 @@
           active-class="light-blue--text text--lighten-4"
           style="color:red;"
         >
-          <v-list-item router to="/">
+          <v-list-item router to="/portal">
                 <v-list-item-action>
                     <v-icon>mdi-home</v-icon>
                 </v-list-item-action>
@@ -69,7 +69,7 @@
 
 
             </v-list-item>
-            <v-list-item router to="/personels">
+            <v-list-item router>
                 <v-list-item-action>
                     <v-icon small>fas fa-users</v-icon>
                 </v-list-item-action>
@@ -102,7 +102,7 @@
                 </v-list-item-content>
             </v-list-item>
 
-            <v-list-item>
+            <v-list-item router :to="{name:'personel-profile'}">
             <v-list-item-icon>
               <v-icon>mdi-account</v-icon>
             </v-list-item-icon>

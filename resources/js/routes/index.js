@@ -11,6 +11,11 @@ import RegisterPersonel from '../components/dashboard/personels/RegisterPersonel
 import PersonelProfile from '../components/dashboard/personels/PersonelProfile.vue'
 import Personels from '../components/dashboard/personels/Personels.vue'
 
+import Dashboard from '../components/dashboards/Dashboard.vue';
+import Clubs from '../components/dashboards/clubs/Clubs.vue';
+
+
+
 // import goTo from 'vuetify/es5/services/goto';
 
 
@@ -31,7 +36,8 @@ const router = new VueRouter({
         {
             path:'/',component: LoginRegister,name:'login'
         },
-        { path:'/portal',component: MainLayout,name:'portal'},
+        { path:'/portal',component: Dashboard,name:'portal',
+         },{ path:'/clubs',component: Clubs,name:'clubs'},
         { path:'/requests',component: Requests,name:'requests'},
         { path:'/players',component: Players,name:'players'},
         { path:'/personels',component: Personels,name:'personels',

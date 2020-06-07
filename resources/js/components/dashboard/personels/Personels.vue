@@ -9,7 +9,7 @@
                 <v-window-item>
                   <v-row>
                     <v-col
-                      cols="12" md="8"
+                      cols="12" md="10"
                     >
 
                       <v-app-bar
@@ -48,7 +48,7 @@
                   </v-row>
                   <v-row>
                     <v-col
-                      cols="12" md="8"
+                      cols="12" md="12"
                     >
                     <v-sheet min-height="80vh" class="overflow-y-auto">
                       <v-container>

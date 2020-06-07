@@ -3,6 +3,8 @@ import Vuetify from 'vuetify';
 import 'vuetify/dist/vuetify.min.css';
 import '@mdi/font/css/materialdesignicons.css';
 import '@fortawesome/fontawesome-free/css/all.css';
+import i18n from '../i18n'
+// import '../sass/overrides.sass'
 Vue.use(Vuetify);
 
 export default new Vuetify({
@@ -18,7 +20,8 @@ export default new Vuetify({
             secondary:'#1c2136',
             accent:'#f8f7b3',
             error:'#b71c1c',
-        }
+        },
+
     }
 
 });

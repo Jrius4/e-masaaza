@@ -201,7 +201,7 @@ export default {
     },
     methods:{
         loginFunc(){
-            this.$router.push({name:"requests"});
+            this.$router.push({name:"portal"});
         },
         registerFunc(){
             this.$router.push({name:"edit-personal-information"});

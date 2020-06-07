@@ -2,84 +2,90 @@
     <v-sheet>
         <v-card-text class="light-blue--text text--darken-3">
             <h4 class="text-center">Edit Personal Information</h4>
-            <v-form>
-                <v-file-input
-                :rules="rules"
-                accept="image/png, image/jpeg, image/bmp"
-                label="Profile Picture"
-                v-model="avatar"
-                show-size counter
-                ></v-file-input>
+            <v-row align="center" justify="center">
+                <v-col cols="12" md="9">
 
-                <v-file-input
-                :rules="rules"
-                label="National ID"
-                v-model="national_id"
-                show-size counter
-                ></v-file-input>
-
-                <v-file-input
-                :rules="rules"
-                label="Certificate"
-                v-model="certificate"
-                show-size counter
-                ></v-file-input>
-
-                <v-col cols="12" sm="12" md="12">
-                    <v-menu
-                        v-model="menu"
-                        :close-on-content-click="false"
-                        :nudge-right="40"
-                        transition="scale-transition"
-                        offset-y
-                        min-width="290px"
-                    >
-                        <template v-slot:activator="{ on }">
+                    <v-form>
+                        
                         <v-text-field
-                            v-model="date"
-                            label="Date Of Birth"
-                            prepend-icon="mdi-calendar"
-                            readonly
-                            v-on="on"
-                            color="light-blue darken-3"
-                        ></v-text-field>
-                        </template>
-                        <v-date-picker v-model="date" @input="menu = false" color="light-blue darken-3"></v-date-picker>
-                    </v-menu>
-                    </v-col>
+                        id="name"
+                        label="Name"
+                        name="password_confirmation"
+                        prepend-icon="mdi-account"
+                        type="text"
+                        color="light-blue darken-3"
+                        />
+                        
+                        <v-col cols="12" sm="12" md="12">
+                            <v-menu
+                                v-model="menu"
+                                :close-on-content-click="false"
+                                :nudge-right="40"
+                                transition="scale-transition"
+                                offset-y
+                                min-width="290px"
+                            >
+                                <template v-slot:activator="{ on }">
+                                <v-text-field
+                                    v-model="date"
+                                    label="Date Of Birth"
+                                    prepend-icon="mdi-calendar"
+                                    readonly
+                                    v-on="on"
+                                    color="light-blue darken-3"
+                                ></v-text-field>
+                                </template>
+                                <v-date-picker v-model="date" @input="menu = false" color="light-blue darken-3"></v-date-picker>
+                            </v-menu>
+                            </v-col>
 
 
 
 
-                <v-text-field
-                id="password"
-                label="Change Password"
-                name="password"
-                prepend-icon="mdi-lock"
-                text="password"
-                color="light-blue darken-3"
-                />
-                <v-text-field
-                id="confirm_password"
-                label="Confirm Password"
-                name="password_confirmation"
-                prepend-icon="mdi-lock-plus"
-                type="text"
-                color="light-blue darken-3"
-                />
+                        <v-text-field
+                        id="password"
+                        label="Change Password"
+                        name="password"
+                        prepend-icon="mdi-lock"
+                        text="password"
+                        color="light-blue darken-3"
+                        />
+                        <v-text-field
+                        id="confirm_password"
+                        label="Confirm Password"
+                        name="password_confirmation"
+                        prepend-icon="mdi-lock-plus"
+                        type="text"
+                        color="light-blue darken-3"
+                        />
 
 
-                <div class="d-block text-center">
-                    <v-btn
-                    rounded color="light-blue darken-3 elevation-12"
-                    dark
-                    large
-                >
-                    SAVE{{"     "}}<v-icon dark right>mdi-content-save-cog</v-icon>
-                </v-btn>
-                </div>
+                        <div class="d-block text-center">
+                            <v-btn
+                            rounded color="light-blue darken-3 elevation-12"
+                            dark
+                            large
+                        >
+                            SAVE{{"     "}}<v-icon dark right>mdi-content-save-cog</v-icon>
+                        </v-btn>
+                        </div>
 
-            </v-form>
+                    </v-form>
+
+                </v-col>
+                <v-col cols="12" md="9" dark>
+                    <h3>Files</h3>
+                    <br/>
+                    <h5>Profile Picture</h5>
+                    <upload-files :input_multiple="false" :input_name="'avatars[]'" :post_url="'files/upload-file'"></upload-files>
+                    <br/>
+                    <h5>National ID</h5>
+                    <upload-files :input_multiple="false" :input_name="'national_ids[]'" :post_url="'files/upload-file'"></upload-files>
+                    <h5>Certificates</h5>
+                    <upload-files :input_multiple="true" :input_name="'certificates[]'" :post_url="'files/upload-file'"></upload-files>
+                </v-col>
+            </v-row>
+
         </v-card-text>
     </v-sheet>
 </template>

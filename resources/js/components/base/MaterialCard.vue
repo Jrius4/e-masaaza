@@ -38,7 +38,7 @@
 
         <div
           v-else-if="title && !icon"
-          class="display-1 font-weight-light"
+          :class="`display-1 font-weight-light ${titleColor}`"
           v-text="title"
         />
 
@@ -50,7 +50,7 @@
 
         <div
           v-if="text"
-          class="headline font-weight-thin"
+          :class="`headline font-weight-thin ${titleColor}`"
           v-text="text"
         />
       </v-sheet>
@@ -64,11 +64,11 @@
 
       <div
         v-else-if="icon && title"
-        class="ml-4"
+        :class="`ml-4  ${titleColor}`"
       >
         <div
 
-          class="card-title font-weight-light"
+          :class="`display-1 card-title font-weight-light  ${titleColor}`"
           v-text="title"
         />
       </div>
@@ -97,7 +97,11 @@
       },
       color: {
         type: String,
-        default: 'success',
+        default: 'light-blue darken-3',
+      },
+      titleColor:{
+        type: String,
+        default: 'light-blue--text text--darken-3',
       },
       icon: {
         type: String,
