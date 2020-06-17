@@ -36,6 +36,7 @@ class RolesTableSeeder extends Seeder
 
         $user->create([
             "name"=>"Committee Secretary",
+            "username"=>"committee",
             "email"=>"committeesecretary@gmail.com",
             "password"=>bcrypt("12345678"),
         ]);
@@ -46,6 +47,7 @@ class RolesTableSeeder extends Seeder
 
         $user->create([
             "name"=>"Club Secretary",
+            "username"=>"club",
             "email"=>"clubsecretary@gmail.com",
             "password"=>bcrypt("12345678"),
         ]);
