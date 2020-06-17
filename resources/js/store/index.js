@@ -20,7 +20,26 @@ const store = new Vuex.Store({
 
         //clubs
         teams:[],
-        // end clubs
+        // end clubs,
+
+        //files
+        set1Files:[],        
+        set1Rules:[],
+        set1FileType:[],
+        set1RuleStatus:[],
+        set2Files:[],        
+        set2RuleStatus:[],
+        set2FileType:[],
+        set2Rules:[],
+        set3Files:[],        
+        set3RuleStatus:[],
+        set3FileType:[],
+        set3RuleStatus:[],
+        set4Files:[],        
+        set4Rules:[],
+        set4FileType:[],
+        set4RuleStatus:[],
+        //endfiles
 
     },
     getters:{
@@ -50,16 +69,84 @@ const store = new Vuex.Store({
 
         getClubsMutation(currentState,clubs){
             currentState.teams = clubs
-        }
+        },
 
         // end clubs
+        // files
+        UPLOADED_FILE(currentState,payload){
+            let set_number = payload.set_number;
+            if(set_number !==null){
+                if(set_number === 1){
+                    currentState.set1Files = payload.files;
+                    currentState.set1Rules = payload.rules;
+                    currentState.set1RuleStatus = payload.rulesStatus;
+                    
+                }
+                else if(set_number === 2){
+                    currentState.set2Files = payload.files;
+                    currentState.set2Rules = payload.rules;
+                    currentState.set2RuleStatus = payload.rulesStatus;
+                    
+                }
+                else if(set_number === 3){
+                    console.log({payload})
+                    currentState.set3Files = payload.files;
+                    currentState.set3Rules = payload.rules;
+                    currentState.set3RuleStatus = payload.rulesStatus;
+                    
+                }
+                else if(set_number === 4){
+                    currentState.set4Files = payload.files;
+                    currentState.set4Rules = payload.rules;
+                    currentState.set4RuleStatus = payload.rulesStatus;
+                    
+                }
+            }
+            else{
+            }
+            console.log(payload)
+        },
+        DELETE_UPLOADED_FILE(currentState,payload){
+            let set_number = payload.set_number;
+            if(set_number !==null){
+                if(set_number === 1){
+                    currentState.set1Files.splice(payload.key,1);
+                    currentState.set1Rules.splice(payload.key,1);
+                    currentState.set1RuleStatus = payload.rulesStatus;
+                    
+                }
+                else if(set_number === 2){
+                    currentState.set2Files.splice(payload.key,1);
+                    currentState.set2Rules.splice(payload.key,1);
+                    currentState.set2RuleStatus.splice(payload.key,1);
+                    
+                }
+                else if(set_number === 3){
+                    currentState.set3Files.splice(payload.key,1);
+                    currentState.set3Rules.splice(payload.key,1);
+                    currentState.set3RuleStatus.splice(payload.key,1);
+                    
+                }
+                else if(set_number === 4){
+                    currentState.set4Files.splice(payload.key,1);
+                    currentState.set4Rules.splice(payload.key,1);
+                    currentState.set4RuleStatus.splice(payload.key,1);
+                   
+                }
+            }
+            else{
+                
+            }
+            console.log(payload)
+        },
+        // files end
 
     },
     actions:{
         retrieveTokenAction(context,credentials){
             return new Promise((resolve,reject)=>{
                 Axios.post('/api/login',{
-                    email:credentials.email,
+                    username:credentials.username,
                     password:credentials.password,
                 }).then(response=>{
                     const token = response.data.success.access_token
@@ -74,6 +161,15 @@ const store = new Vuex.Store({
                 )
             })
         },
+        //files actions
+        async UPLOADED_FILE_ACTION(context,payload){
+            context.commit('UPLOADED_FILE',payload)
+            
+        },
+        async DELETE_UPLOADED_FILE_ACTION(context,payload) {
+            context.commit('DELETE_UPLOADED_FILE',payload)
+        },
+        //files actionsend
         getUserAction(context){
             if(context.getters.loggedIn){
                 return new Promise((resolve,reject)=>{

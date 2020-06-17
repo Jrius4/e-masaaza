@@ -10,8 +10,9 @@ import Players from '../components/dashboard/players/Players.vue'
 import RegisterPersonel from '../components/dashboard/personels/RegisterPersonel.vue'
 import PersonelProfile from '../components/dashboard/personels/PersonelProfile.vue'
 import Personels from '../components/dashboard/personels/Personels.vue'
+import Logout from '../components/Logout.vue';
 
-import Dashboard from '../components/dashboards/Dashboard.vue';
+import Dashboard from '../components/dashboards/dashboard.vue';
 import Clubs from '../components/dashboards/clubs/Clubs.vue';
 
 
@@ -32,19 +33,56 @@ const router = new VueRouter({
     // },
     base:'/',
     mode:'history',
+    linkActiveClass:'is-active',
     routes:[
         {
-            path:'/',component: LoginRegister,name:'login'
+            path:'/',component: LoginRegister,name:'login',
+            meta:{
+                requiresAuth:false,
+            }
+        },
+        {
+            path:'/logout',
+            component:Logout,
+            name:'logout',
+            meta:{
+                requiresAuth:true,
+            }
         },
         { path:'/portal',component: Dashboard,name:'portal',
-         },{ path:'/clubs',component: Clubs,name:'clubs'},
-        { path:'/requests',component: Requests,name:'requests'},
-        { path:'/players',component: Players,name:'players'},
-        { path:'/personels',component: Personels,name:'personels',
+            meta:{
+                requiresAuth:true,
+            }
+         },
+         {
+             path:'/clubs',component: Clubs,name:'clubs',
+             meta:{
+                requiresAuth:true,
+            }
+        },
+        {
+            path:'/requests',component: Requests,name:'requests',
+            meta:{
+                requiresAuth:true,
+            }
+        },
+        {
+            path:'/players',component: Players,name:'players',
+            meta:{
+                requiresAuth:true,
+            }
+        },
+        {
+            path:'/personels',component: Personels,name:'personels',
         children:[
             { path:'',component: PersonelProfile,name:'personel-profile'},
             { path:'/edit-personal-information',component: RegisterPersonel,name:'edit-personal-information'},
-        ]},
+        ],
+        meta:{
+            requiresAuth:true,
+        }
+
+    },
 
 
 

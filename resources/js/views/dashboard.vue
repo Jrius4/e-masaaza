@@ -339,6 +339,14 @@
 </template>
 
 <script>
+export default{
+    data:()=>({
+        user:null,
+    }),
+    beforeCreate(){
+        console.log(`incoming`);
+    },
+}
 
 
 </script>

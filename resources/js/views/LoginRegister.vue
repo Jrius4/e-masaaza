@@ -9,7 +9,9 @@
                             <v-window-item :value="1">
                                 <v-row>
 
-
+                                    <div class="alert alert-danger text-center col-12" role="alert" v-if="error">
+                                        <p>{{error}}</p>
+                                    </div>
                                     <v-col cols="12"
                                         md="8"
                                     >
@@ -24,7 +26,7 @@
                                         <v-form>
                                            <v-text-field
                                             label="Username"
-                                            name="Username"
+                                            v-model="username"
                                             prepend-icon="mdi-account"
                                             text="text"
                                             color="light-blue darken-3"
@@ -32,7 +34,7 @@
                                            <v-text-field
                                             id="password"
                                             label="Password"
-                                            name="Password"
+                                            v-model="password"
                                             prepend-icon="mdi-lock"
                                             type="password"
                                             color="light-blue darken-3"
@@ -194,17 +196,36 @@
 <script>
 export default {
     data:()=>({
-        step:1
+        step:1,
+        username:null,
+        password:null,
+        error:null
     }),
     props:{
         source:String
     },
     methods:{
         loginFunc(){
-            this.$router.push({name:"portal"});
+            this.$store.dispatch('retrieveTokenAction',{
+                username:this.username,
+                password:this.password
+            }).then((result) => {
+                this.$router.push({name:'portal'});
+
+            }).catch((err) => {
+                this.error = err.response.data.error
+            });
         },
         registerFunc(){
-            this.$router.push({name:"edit-personal-information"});
+            this.$store.dispatch('retrieveTokenAction',{
+                username:this.username,
+                password:this.password
+            }).then((result) => {
+                this.$router.push({name:'edit-personal-information'});
+
+            }).catch((err) => {
+                this.error = err.response.data.error
+            });
         },
     }
 }

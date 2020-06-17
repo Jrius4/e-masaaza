@@ -5,11 +5,12 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laratrust\Traits\LaratrustUserTrait;
 use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens ,Notifiable;
+    use HasApiTokens ,Notifiable,LaratrustUserTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -18,6 +19,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'email', 'password',
+        'username','avatar','national_id','certificates','positions',
+        'biography','club_id'
     ];
 
     /**
@@ -37,4 +40,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function club(){
+        return $this->belongsTo(Club::class);
+    }
 }

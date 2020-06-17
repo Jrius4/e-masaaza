@@ -6,7 +6,7 @@
       color="light-blue darken-4"
       dark
     >
-      <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon v-if="loggedIn" @click="drawer = true"></v-app-bar-nav-icon>
 
       <v-toolbar-title>Masaza Cup</v-toolbar-title>
 
@@ -14,21 +14,22 @@
 
 
 
-      <v-btn icon>
-        <v-badge color="error" overlap>
+      <v-btn icon  v-if="loggedIn">
+          <v-icon>mdi-account</v-icon>
+        <!-- <v-badge color="error" overlap>
             <template slot="badge">400</template>
             <v-icon color="tertiary">mdi-bell</v-icon>
-        </v-badge>
+        </v-badge> -->
       </v-btn>
 
-      <v-toolbar-title>Username</v-toolbar-title>
+      <v-toolbar-title  v-if="loggedIn && user!== null">{{user.name}}</v-toolbar-title>
 
-      <v-btn icon>
+      <v-btn icon  v-if="loggedIn">
         <v-icon>mdi-dots-vertical</v-icon>
       </v-btn>
     </v-app-bar>
 
-    <v-navigation-drawer
+    <v-navigation-drawer  v-if="loggedIn"
       v-model="drawer"
       absolute
       temporary
@@ -55,7 +56,7 @@
 
 
 
-            <v-list-item router to="/requests">
+            <v-list-item v-if="roleCheck('executive')" router to="/requests">
 
                     <v-list-item-action>
                         <v-badge color="error" overlap>
@@ -69,7 +70,7 @@
 
 
             </v-list-item>
-            <v-list-item router>
+            <v-list-item v-if="roleCheck('executive')" router>
                 <v-list-item-action>
                     <v-icon small>fas fa-users</v-icon>
                 </v-list-item-action>
@@ -77,7 +78,7 @@
                     <v-list-item-title>Persons</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item router>
+            <v-list-item v-if="roleCheck('executive')" router>
                 <v-list-item-action>
                     <v-icon small>fas fa-briefcase</v-icon>
                 </v-list-item-action>
@@ -87,13 +88,13 @@
             </v-list-item>
             <v-list-item router>
                 <v-list-item-action>
-                    <v-icon medium left>mdi-soccer-field</v-icon>
+                    <v-icon v-if="roleCheck('executive')" medium left>mdi-soccer-field</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
                     <v-list-item-title>Pitches</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item router>
+            <v-list-item v-if="roleCheck('executive')" router>
                 <v-list-item-action>
                     <v-icon small>mdi-account-group</v-icon>
                 </v-list-item-action>
@@ -176,6 +177,7 @@
 
 
 <script>
+import {mapGetters,mapState} from 'vuex';
   export default {
     data: () => ({
       drawer: false,
@@ -183,8 +185,35 @@
 
     methods:{
         logoutFunc(){
-           this.$router.push({name:'login'});
+           this.$router.push({name:'logout'});
+        },
+        roleCheck(value){
+            let user = this.user;
+            if(user!==null){
+                let roles = user.roles
+                
+                if(roles.length < 1){
+                    return false;
+                }else if(roles.length > 0){
+
+                    return true;
+                }
+            }
+            else{
+                return false;
+            }
         }
+    },
+    computed:{
+        ...mapGetters([
+            'loggedIn'
+        ]),
+        ...mapState({
+            user:state=>state.user
+        }),
+        
+
+
     }
   }
 </script>

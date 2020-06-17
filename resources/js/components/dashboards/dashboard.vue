@@ -3,7 +3,12 @@
     <v-content>
       <v-container class="fill-height" fluid>
         <v-row align="center" justify="center">
-        
+          <v-col cols="12">
+            <h3>Dashboard</h3>
+            <p v-if="user!== null" class="text-center">
+               Welcome {{user.name}}, :)
+            </p>
+          </v-col>
           <div class="col-lg-3 col-6 animated flipInY">
             <!-- small box -->
             <div class="small-box bg-info">
@@ -75,7 +80,7 @@
 export default {
     name:'Dashboard',
     data:()=>({
-      
+        user:null,
         emailsSubscriptionChart: {
           data: {
             labels: ['Ja', 'Fe', 'Ma', 'Ap', 'Mai', 'Ju', 'Jul', 'Au', 'Se', 'Oc', 'No', 'De'],
@@ -108,7 +113,14 @@ export default {
             }],
           ],
         },
-    })
+    }),
+    beforeCreate(){
+        this.$store.dispatch("getUserAction").then((response) => {
+           this.user =  this.$store.state.user
+        }).catch((err) => {
+            console.log(err)
+        });
+    },
 
 }
 </script>

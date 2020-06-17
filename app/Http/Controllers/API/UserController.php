@@ -5,10 +5,13 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Token;
+use Faker\Factory;
+use Faker\Generator;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use Illuminate\Support\Facades\Auth;
-// use Illuminate\Support\Facades\Request as FacadesRequest;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -17,8 +20,9 @@ class UserController extends Controller
     public function register(Request $request){
         $rules = array(
             'name'=>'required',
-            'email'=>'required|email|unique:users',
+            'email'=>'email|unique:users',
             'password'=>'required',
+            'token_key'=>'required',
             'password_confirmation'=>'required|same:password',
         );
 
@@ -38,7 +42,14 @@ class UserController extends Controller
 
         $input['password'] = bcrypt($input['password']);
 
-        $user = User::create($input);
+
+        $token = new Token();
+        if($token->where('token_key',$input['token_key'])->count()>0){
+            $user = User::create([
+                'name'=>$request('name'),
+                'password'=>$request('password'),
+            ]);
+        }
 
         $success['access_token'] = $user->createToken('Laravel Passport Create Access Token')->accessToken;
         $success['name']=$user->name;
@@ -52,6 +63,37 @@ class UserController extends Controller
         return response()->json($response,200);
 
 
+    }
+    public function addMember(Request $request){
+
+    }
+    public function generateToken(Request $request){
+        $output = null;
+        $gen_token =  Str::random(8);
+        $class_name = $request->class_name;
+        $position = $request->position;
+        $token_key = $gen_token;
+
+        $token = new Token();
+        $countGen = $token->where('class_name',$class_name)->count();
+        if($countGen > 0){
+            if($token->where('position',$position)->count()>0){
+                $token->where('position',$position)->first()->update([
+                    'token_key'=>$token_key,
+                ]);
+            }
+        }
+        else{
+            $token->create([
+                'class_name'=>$class_name,
+                'position'=>$position,
+                'token_key'=>$token_key,
+            ]);
+        }
+
+        $output = $token->where('position',$position)->where('class_name',$class_name)->first();
+
+        return $output;
     }
 
     public function login()
@@ -85,7 +127,7 @@ class UserController extends Controller
         }
         */
         // /**
-        if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
+        if(Auth::attempt(['username' => request('username'), 'password' => request('password')])){
             $user = Auth::user();
 
             $success['access_token'] = $user->createToken('Laravel Passport Create Access Token')->accessToken;

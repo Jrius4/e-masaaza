@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +16,10 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+    $user_id = Auth()->user()->id;
+    $user = User::with('roles')->find($user_id);
+    // return $request->user();
+    return $user;
 });
 Route::get('/users',function(){
     return response()->json(['name'=>Auth::user()]);
@@ -27,3 +31,4 @@ Route::middleware('auth:api')->group(function(){
     Route::resource('files', 'API\FileController');
 
 });
+Route::post('/generate-token','API\UserController@generateToken');

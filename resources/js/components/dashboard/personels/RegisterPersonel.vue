@@ -59,8 +59,22 @@
                         color="light-blue darken-3"
                         />
 
+                    </v-form>
 
-                        <div class="d-block text-center">
+                </v-col>
+                <v-col cols="12" md="9" dark>
+                    <h3>Files</h3>
+                    <br/>
+                    <h5>Profile Picture</h5>
+                    <upload-files :file_type="'image'" :set_no="1" :input_multiple="false" :input_name="'avatars[]'" :post_url="'files/upload-file'"></upload-files>
+                    <br/>
+                    <h5>National ID</h5>
+                    <upload-files :set_no="2" :input_multiple="false" :input_name="'national_ids[]'" :post_url="'files/upload-file'"></upload-files>
+                    <h5>Certificates</h5>
+                    <upload-files :set_no="3" :input_multiple="true" :input_name="'certificates[]'" :post_url="'files/upload-file'"></upload-files>
+                </v-col>
+                <v-col  cols="12" md="9" dark>
+                    <div class="d-block text-center">
                             <v-btn
                             rounded color="light-blue darken-3 elevation-12"
                             dark
@@ -69,20 +83,6 @@
                             SAVE{{"     "}}<v-icon dark right>mdi-content-save-cog</v-icon>
                         </v-btn>
                         </div>
-
-                    </v-form>
-
-                </v-col>
-                <v-col cols="12" md="9" dark>
-                    <h3>Files</h3>
-                    <br/>
-                    <h5>Profile Picture</h5>
-                    <upload-files :input_multiple="false" :input_name="'avatars[]'" :post_url="'files/upload-file'"></upload-files>
-                    <br/>
-                    <h5>National ID</h5>
-                    <upload-files :input_multiple="false" :input_name="'national_ids[]'" :post_url="'files/upload-file'"></upload-files>
-                    <h5>Certificates</h5>
-                    <upload-files :input_multiple="true" :input_name="'certificates[]'" :post_url="'files/upload-file'"></upload-files>
                 </v-col>
             </v-row>
 
