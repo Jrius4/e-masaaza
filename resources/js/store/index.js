@@ -16,26 +16,26 @@ const store = new Vuex.Store({
         barColor: 'rgba(0, 0, 0, .8), rgba(0, 0, 0, .8)',
         barImage: 'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-1.jpg',
         drawer: null,
-        
+
 
         //clubs
         teams:[],
         // end clubs,
 
         //files
-        set1Files:[],        
+        set1Files:[],
         set1Rules:[],
         set1FileType:[],
         set1RuleStatus:[],
-        set2Files:[],        
+        set2Files:[],
         set2RuleStatus:[],
         set2FileType:[],
         set2Rules:[],
-        set3Files:[],        
+        set3Files:[],
         set3RuleStatus:[],
         set3FileType:[],
         set3RuleStatus:[],
-        set4Files:[],        
+        set4Files:[],
         set4Rules:[],
         set4FileType:[],
         set4RuleStatus:[],
@@ -80,26 +80,26 @@ const store = new Vuex.Store({
                     currentState.set1Files = payload.files;
                     currentState.set1Rules = payload.rules;
                     currentState.set1RuleStatus = payload.rulesStatus;
-                    
+
                 }
                 else if(set_number === 2){
                     currentState.set2Files = payload.files;
                     currentState.set2Rules = payload.rules;
                     currentState.set2RuleStatus = payload.rulesStatus;
-                    
+
                 }
                 else if(set_number === 3){
                     console.log({payload})
                     currentState.set3Files = payload.files;
                     currentState.set3Rules = payload.rules;
                     currentState.set3RuleStatus = payload.rulesStatus;
-                    
+
                 }
                 else if(set_number === 4){
                     currentState.set4Files = payload.files;
                     currentState.set4Rules = payload.rules;
                     currentState.set4RuleStatus = payload.rulesStatus;
-                    
+
                 }
             }
             else{
@@ -113,29 +113,29 @@ const store = new Vuex.Store({
                     currentState.set1Files.splice(payload.key,1);
                     currentState.set1Rules.splice(payload.key,1);
                     currentState.set1RuleStatus = payload.rulesStatus;
-                    
+
                 }
                 else if(set_number === 2){
                     currentState.set2Files.splice(payload.key,1);
                     currentState.set2Rules.splice(payload.key,1);
                     currentState.set2RuleStatus.splice(payload.key,1);
-                    
+
                 }
                 else if(set_number === 3){
                     currentState.set3Files.splice(payload.key,1);
                     currentState.set3Rules.splice(payload.key,1);
                     currentState.set3RuleStatus.splice(payload.key,1);
-                    
+
                 }
                 else if(set_number === 4){
                     currentState.set4Files.splice(payload.key,1);
                     currentState.set4Rules.splice(payload.key,1);
                     currentState.set4RuleStatus.splice(payload.key,1);
-                   
+
                 }
             }
             else{
-                
+
             }
             console.log(payload)
         },
@@ -152,8 +152,9 @@ const store = new Vuex.Store({
                     const token = response.data.success.access_token
                     localStorage.setItem('access_token',token)
                     context.commit('retrieveToken',token)
+                    console.log(response);
+                    resolve(response);
 
-                    resolve(response)
                 }).catch(error=>
                     {
                         reject(error)
@@ -164,7 +165,7 @@ const store = new Vuex.Store({
         //files actions
         async UPLOADED_FILE_ACTION(context,payload){
             context.commit('UPLOADED_FILE',payload)
-            
+
         },
         async DELETE_UPLOADED_FILE_ACTION(context,payload) {
             context.commit('DELETE_UPLOADED_FILE',payload)
@@ -178,7 +179,7 @@ const store = new Vuex.Store({
                     }).then(response=>{
                         const user = response.data;
                     context.commit('getUser',user)
-
+                        console.log(response);
                     resolve(response)
                 }).catch(error=>
                     {
