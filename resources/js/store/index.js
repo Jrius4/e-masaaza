@@ -152,7 +152,7 @@ const store = new Vuex.Store({
                     const token = response.data.success.access_token
                     localStorage.setItem('access_token',token)
                     context.commit('retrieveToken',token)
-                    console.log(response);
+
                     resolve(response);
 
                 }).catch(error=>
@@ -179,7 +179,7 @@ const store = new Vuex.Store({
                     }).then(response=>{
                         const user = response.data;
                     context.commit('getUser',user)
-                        console.log(response);
+
                     resolve(response)
                 }).catch(error=>
                     {
