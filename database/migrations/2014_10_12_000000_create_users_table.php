@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('certificates')->nullable();
             $table->string('positions')->nullable();
             $table->text('biography')->nullable();
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

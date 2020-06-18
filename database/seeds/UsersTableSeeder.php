@@ -15,15 +15,17 @@ class UsersTableSeeder extends Seeder
         $user = new User();
 
         $user->create(array(
-            "name"=>"Kazibwe Julius Junior",
-            "email"=>"junior@gmail.com",
-            "password"=>bcrypt("12345678")
+            "name"=>"Kazibwe Julius Jr",
+            "username"=>"jrius",
+            "email"=>"kazibwejuliusjunior@gmail.com",
+            "password"=>bcrypt("admins3cret")
         ));
         // $user->whereName('Kazibwe Julius Junior')->first()->createToken('KaxiApp')->accessToken;
 
         $user->create(array(
-            "name"=>"Raymond",
-            "email"=>"raymond@gmail.com",
+            "name"=>"Raymond K",
+            "username"=>"rayk",
+            "email"=>"raymondK@gmail.com",
             "password"=>bcrypt("12345678")
         ));
         // $user->whereName('Joy')->first()->createToken('KaxiApp')->accessToken;

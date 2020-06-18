@@ -6,8 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Club extends Model
 {
-    protected $fillable = ['logo','name','slug','slogan']
+    protected $fillable = ['logo','name','slug','slogan'];
     public function users(){
         return $this->hasMany(User::class);
+    }
+
+    public function players(){
+        return $this->hasMany(Player::class);
     }
 }

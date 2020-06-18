@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -32,3 +33,14 @@ Route::middleware('auth:api')->group(function(){
 
 });
 Route::post('/generate-token','API\UserController@generateToken');
+Route::get('/players','PlayerController@index');
+Route::post('/players','PlayerController@store');
+Route::put('/players/{id}','PlayerController@update');
+Route::delete('/players/{player}','PlayerController@destroy');
+Route::get('/players/{player}','PlayerController@show');
+
+Route::get('/clubs','ClubController@index');
+Route::post('/clubs','ClubController@store');
+Route::put('/clubs/{id}','ClubController@update');
+Route::delete('/clubs/{club}','ClubController@destroy');
+Route::get('/clubs/{club}','ClubController@show');
