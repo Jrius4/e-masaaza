@@ -21,7 +21,7 @@ class ClubsTableSeeder extends Seeder
                 'name'=>['Buddu','Ssingo','Kyagwe','Bulemezi'][$i%4].'#  '.$i,
                 'slug'=>str_slug(['Buddu','Ssingo','Kyagwe','Bulemezi'][$i%4].'#  '.$i),
                 'slogan'=>['Buddu','Ssingo','Kyagwe','Bulemezi'][$i%4].'# '.$i.' we win!',
-                'logo'=>'/club_logos/logo.png',
+                'logo'=>'',
             ]);
         }
     }

@@ -65,7 +65,7 @@
               <div class="icon">
                 <i class="fas fa-users"></i>
               </div>
-              <router-link :to="{name:'requests'}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></router-link>
+              <router-link :to="{name:'players'}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></router-link>
             </div>
           </div>
           </v-row>

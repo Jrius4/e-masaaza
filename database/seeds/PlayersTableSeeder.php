@@ -23,17 +23,17 @@ class PlayersTableSeeder extends Seeder
 
         // $startDateAge = $faker->dateTimeBetween('this week','-24 years')
 
-        for($i=1;$i<=45;$i++){
+        for($i=1;$i<=5;$i++){
             $date = $date->now();
             $date2 = $date->now();
-            $dob = $date->modify('-'.[17,18,19,20,22,25,24,28][$i%7].' years');
+            $dob = $date->modify('-'.((rand(18,28)*12)+rand(1,8)).' months')->format('Y-m-d');
             $clubs->where('id',rand(1,18))->first()->players()->create([
                 'first_name'=>['James','Sulati','Kizito','Robert','Kenneth'][rand(0,4)],
                 'last_name'=>['kazibwe','Magezi','kato','Jjuuko'][$i%4],
                 'personal_number'=>strtoupper(substr(['kazibwe','Magezi','kato','Jjuuko'][$i%4],0,2).Str::random(3).$date->parse($dob)->format('y').Str::random(3)).$date->parse($date2)->format('y'),
-                'positions'=>['','WF','CF','LB','LM'][$i%4],
-                'former_club'=>['','Buddu','Ssingo','Kyagwe','Bulemezi'][$i%4],
-                'years_played'=>[0,1,2,3,4][$i%4],
+                'positions'=>['','WF','CF','LB','LM'][rand(0,4)],
+                'former_club'=>['','Buddu','Ssingo','Kyagwe','Bulemezi'][rand(0,4)],
+                'years_played'=>rand(0,4),
                 'biography'=>'hefdsakjdlasdsajfasfkrif sadjakradoeiasdkadspdadi',
                 'date_of_birth'=>$dob,
             ]);

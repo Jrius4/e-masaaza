@@ -17,9 +17,25 @@ class ClubController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $clubs = Club::paginate(5);
+        $query = $request->query('query');
+        $rowsPerPage = $request->query('rowsPerPage');
+        $sortRowsBy = 'name';
+        $sortDesc = false;
+        if(isset($request['sortDesc']) && $request['sortDesc'] !== '' ){
+            $sortDesc = $request['sortDesc'] == 'true'?true:false;
+        }
+        else{
+            $sortDesc = false;
+        }
+        if(isset($request['sortRowsBy']) && $request['sortRowsBy']!==''){
+            $sortRowsBy = $request['sortRowsBy'];
+        }
+        else{
+            $sortRowsBy = 'name';
+        }
+        $clubs = Club::select('id','name','logo','slogan')->orderBy($sortRowsBy,($sortDesc?'desc':'asc'))->where('name','like','%'.$query.'%')->paginate($rowsPerPage);
         return response()->json(compact('clubs'));
 
     }
@@ -42,6 +58,7 @@ class ClubController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request->file('logo');
         $rules = array(
             'logo'=>'required',
             'name'=>'unique:clubs',
@@ -95,9 +112,18 @@ class ClubController extends Controller
      * @param  \App\Club  $club
      * @return \Illuminate\Http\Response
      */
-    public function show(Club $club)
+    public function show($id)
     {
-        return response()->json(compact('club'));
+        if(Club::where('id',$id)->exists()){
+            $club = Club::find($id);
+            return response()->json(compact('club'));
+        }
+        else{
+            return response()->json([
+                "message" => "club not found"
+            ], 404);
+        }
+
     }
 
     /**
@@ -160,16 +186,25 @@ class ClubController extends Controller
      * @param  \App\Club  $club
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Club $club)
+    public function destroy($id)
     {
-        if($club->logo !== null){
-            $file_path = 'clubs/'.$club->logo;
-            Storage::disk('uploads')->delete($file_path);
+        if(Club::where('id',$id)->exists()){
+            $club = Club::find($id);
+            if($club->logo !== null){
+                $file_path = 'clubs/'.$club->logo;
+                Storage::disk('uploads')->delete($file_path);
+            }
+            $success = null;
+            if($club->delete()){
+                $success = true;
+            }
+            return response()->json(compact('success'));
         }
-        $success = null;
-        if($club->delete()){
-            $success = true;
+        else{
+            return response()->json([
+                "message" => "club not found"
+            ], 404);
         }
-        return response()->json(compact('success'));
+        
     }
 }

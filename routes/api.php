@@ -35,12 +35,12 @@ Route::middleware('auth:api')->group(function(){
 Route::post('/generate-token','API\UserController@generateToken');
 Route::get('/players','PlayerController@index');
 Route::post('/players','PlayerController@store');
-Route::put('/players/{id}','PlayerController@update');
+Route::post('/players/{id}','PlayerController@update');
 Route::delete('/players/{player}','PlayerController@destroy');
 Route::get('/players/{player}','PlayerController@show');
 
 Route::get('/clubs','ClubController@index');
 Route::post('/clubs','ClubController@store');
-Route::put('/clubs/{id}','ClubController@update');
-Route::delete('/clubs/{club}','ClubController@destroy');
-Route::get('/clubs/{club}','ClubController@show');
+Route::post('/clubs/{id}','ClubController@update');
+Route::delete('/clubs/{id}','ClubController@destroy');
+Route::get('/clubs/{id}','ClubController@show');

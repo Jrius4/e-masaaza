@@ -191,9 +191,7 @@ import {mapState} from 'vuex';
                             this.$store.dispatch('UPLOADED_FILE_ACTION',data);
                         
                     }
-                }
-                console.log({files3:this.files})
-                
+                }               
                
                 this.getImagePreviews();
                 
@@ -335,7 +333,6 @@ import {mapState} from 'vuex';
                     }
                     let formData = new FormData();
                     formData.append('files', this.files[i]);
-                    console.log(this.files[i]);
                     axios.post('/' + this.post_url,
                         formData,
                         {
@@ -344,12 +341,9 @@ import {mapState} from 'vuex';
                             }
                         }
                     ).then(function(data) {
-                        console.log(data)
                         this.files[i].id = data['data']['id'];
                         this.files.splice(i, 1, this.files[i]);
-                        console.log('success');
                     }.bind(this)).catch(function(data) {
-                        console.log(data);
                     });
                 }
             }
@@ -372,7 +366,6 @@ import {mapState} from 'vuex';
             fileFormat(){
                 let fileFormat = this.file_type;
                 let newAccept = '';
-                console.log({fileFormat})
                 if(!fileFormat){
                     fileFormat = null;
                     newAccept = `image/jpeg,image/png,application/pdf`

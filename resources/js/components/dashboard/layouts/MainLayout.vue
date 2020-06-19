@@ -56,7 +56,7 @@
 
 
 
-            <v-list-item v-if="roleCheck('executive')" router to="/requests">
+            <v-list-item v-if="roleCheck('committee_secretary') || roleCheck('club_secretary')" router to="/requests">
 
                     <v-list-item-action>
                         <v-badge color="error" overlap>
@@ -70,7 +70,7 @@
 
 
             </v-list-item>
-            <v-list-item v-if="roleCheck('executive')" router>
+            <v-list-item v-if="roleCheck('committee_secretary')" router>
                 <v-list-item-action>
                     <v-icon small>fas fa-users</v-icon>
                 </v-list-item-action>
@@ -78,7 +78,7 @@
                     <v-list-item-title>Persons</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item v-if="roleCheck('executive')" router>
+            <v-list-item v-if="roleCheck('committee_secretary')" router>
                 <v-list-item-action>
                     <v-icon small>fas fa-briefcase</v-icon>
                 </v-list-item-action>
@@ -86,15 +86,15 @@
                     <v-list-item-title>Roles</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item router>
+            <v-list-item router v-if="roleCheck('committee_secretary')" >
                 <v-list-item-action>
-                    <v-icon v-if="roleCheck('executive')" medium left>mdi-soccer-field</v-icon>
+                    <v-icon medium left>mdi-soccer-field</v-icon>
                 </v-list-item-action>
                 <v-list-item-content>
                     <v-list-item-title>Pitches</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item v-if="roleCheck('executive')" router>
+            <v-list-item v-if="roleCheck('committee_secretary')" to="/players" router>
                 <v-list-item-action>
                     <v-icon small>mdi-account-group</v-icon>
                 </v-list-item-action>
@@ -189,15 +189,22 @@ import {mapGetters,mapState} from 'vuex';
         },
         roleCheck(value){
             let user = this.user;
+            let hasRole = null;
             if(user!==null){
-                let roles = user.roles
+                let roles = user.roles;
                 
-                if(roles.length < 1){
-                    return false;
-                }else if(roles.length > 0){
-
-                    return true;
-                }
+                roles.forEach(element =>{
+                    if(element.name === value){
+                        hasRole = true;
+                    }
+                    else if(element.name === value){
+                        hasRole = true;
+                    }
+                    else{
+                        hasRole = false;
+                    }
+                });
+                return hasRole;
             }
             else{
                 return false;

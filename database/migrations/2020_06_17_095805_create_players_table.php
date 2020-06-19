@@ -26,7 +26,7 @@ class CreatePlayersTable extends Migration
             $table->string('former_club')->nullable();
             $table->string('years_played')->default(0);
             $table->text('biography')->nullable();
-            $table->string('email')->unique()->nullable();
+            $table->string('phone')->nullable();
             $table->string('date_of_birth');
             $table->timestamps();
 
