@@ -18,9 +18,9 @@ class ClubsTableSeeder extends Seeder
         $clubs = new Club();
         for($i = 1;$i<=18;$i++){
             $clubs->create([
-                'name'=>['Buddu','Ssingo','Kyagwe','Bulemezi'][$i%4].'#  '.$i,
-                'slug'=>str_slug(['Buddu','Ssingo','Kyagwe','Bulemezi'][$i%4].'#  '.$i),
-                'slogan'=>['Buddu','Ssingo','Kyagwe','Bulemezi'][$i%4].'# '.$i.' we win!',
+                'name'=>['buddu','ssingo','kyagwe','bulemezi'][$i%4].'#  '.$i,
+                'slug'=>str_slug(['buddu','ssingo','kyagwe','bulemezi'][$i%4].'#  '.$i),
+                'slogan'=>['buddu','ssingo','kyagwe','bulemezi'][$i%4].'# '.$i.' we win!',
                 'logo'=>'',
             ]);
         }

@@ -218,7 +218,7 @@ class PlayerController extends Controller
             //first_name
                 $first_name = null;
                 if(isset($request->first_name)){
-                    $first_name = $request->first_name;
+                    $first_name = strtolower($request->first_name);
                 }
                 else if($request->first_name == null){
                     $first_name = $player->first_name;
@@ -235,7 +235,7 @@ class PlayerController extends Controller
             if(isset($request->last_name) || isset($request->date_of_birth)){
                 $date = new Carbon();
                 $date2 = $date->now();
-                $last_name = $request->last_name;
+                $last_name = strtolower($request->last_name);
                 $lname = array(
                     'last_name'=>$last_name
                 );
@@ -250,7 +250,7 @@ class PlayerController extends Controller
             //status start
                 $status = null;
                 if(isset($request->status)){
-                    $status = $request->status;
+                    $status = strtolower($request->status);
                 }
                 else if($request->status == null){
                     $status = $player->status;
@@ -284,7 +284,7 @@ class PlayerController extends Controller
             //positions start
                 $positions = null;
                 if(isset($request->positions)){
-                    $positions = $request->positions;
+                    $positions = strtolower($request->positions);
                 }
                 else if($request->positions == null){
                     $positions = $player->positions;
@@ -302,7 +302,7 @@ class PlayerController extends Controller
             //former_club start
                 $former_club = null;
                 if(isset($request->former_club)){
-                    $former_club = $request->former_club;
+                    $former_club = strtolower($request->former_club);
                 }
                 else if($request->former_club == null){
                     $former_club = $player->former_club;
