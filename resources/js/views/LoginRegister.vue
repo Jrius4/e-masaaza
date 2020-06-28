@@ -3,7 +3,10 @@
       <v-content>
           <v-container class="fill-height" fluid>
               <v-row align="center" justify="center">
-                  <v-col cols="12" sm="8" md="8">
+                  <v-col v-if="loading" cols="12" sm="8" md="8">
+                     <loading-state/>
+                  </v-col>
+                  <v-col v-else  cols="12" sm="8" md="8">
                       <v-card class="elevation-12">
                         <v-window v-model="step">
                             <v-window-item :value="1">
@@ -30,7 +33,7 @@
                                             prepend-icon="mdi-account"
                                             text="text"
                                             color="light-blue darken-3"
-                                           /> 
+                                           />
                                            <v-text-field
                                             id="password"
                                             label="Password"
@@ -38,7 +41,7 @@
                                             prepend-icon="mdi-lock"
                                             type="password"
                                             color="light-blue darken-3"
-                                           /> 
+                                           />
                                         </v-form>
 
                                         <h4 class="text-center mt-4">Forgot Your Password</h4>
@@ -57,7 +60,7 @@
 
                                     <v-col cols="12"
                                         md="4" class="light-blue darken-3"
-                                        
+
                                     >
                                         <v-card-text
                                         class="white--text mt-12"
@@ -99,7 +102,7 @@
                                             <h5
                                              class="text-center"
                                             >
-                                                To Keep connected us login with your personnel info. 
+                                                To Keep connected us login with your personnel info.
                                             </h5>
                                         </v-card-text>
 
@@ -116,7 +119,7 @@
                                         </div>
                                     </v-col>
 
-                                    
+
 
                                     <v-col cols="12"
                                         md="8"
@@ -136,7 +139,7 @@
                                             prepend-icon="mdi-account"
                                             text="text"
                                             color="light-blue darken-3"
-                                           /> 
+                                           />
 
                                            <v-text-field
                                            id="password"
@@ -145,7 +148,7 @@
                                             prepend-icon="mdi-account"
                                             text="password"
                                             color="light-blue darken-3"
-                                           /> 
+                                           />
                                            <v-text-field
                                             id="confirm_password"
                                             label="Confirm Password"
@@ -153,7 +156,7 @@
                                             prepend-icon="mdi-lock"
                                             type="password"
                                             color="light-blue darken-3"
-                                           /> 
+                                           />
 
                                            <v-text-field
                                             id="personalKey"
@@ -162,7 +165,7 @@
                                             prepend-icon="mdi-key"
                                             type="text"
                                             color="light-blue darken-3"
-                                           /> 
+                                           />
                                         </v-form>
 
                                         <h5 class="text-center text-danger mt-4">Remember to have a personnel key
@@ -180,9 +183,9 @@
                                         </div>
                                     </v-col>
 
-                                    
+
                                 </v-row>
-                                
+
                             </v-window-item>
                         </v-window>
                       </v-card>
@@ -196,6 +199,7 @@
 <script>
 export default {
     data:()=>({
+        loading:false,
         step:1,
         username:null,
         password:null,
@@ -206,26 +210,37 @@ export default {
     },
     methods:{
         loginFunc(){
+            this.loading = true;
+            // const that = this;
             this.$store.dispatch('retrieveTokenAction',{
                 username:this.username,
                 password:this.password
-            }).then((result) => {
-                this.$router.push({name:'portal'});
-
+            })
+            .then(() => {
+                // this.loading = false;
+                // this.$router.push({name:'portal'});
             }).catch((err) => {
                 this.error = err.response.data.error
-            });
+            })
+             .finally(()=>{
+                this.loading = false;
+                this.$router.push({name:'portal'});
+             });
         },
         registerFunc(){
+            this.loading = true;
             this.$store.dispatch('retrieveTokenAction',{
                 username:this.username,
                 password:this.password
             }).then((result) => {
-                this.$router.push({name:'edit-personal-information'});
+
 
             }).catch((err) => {
                 this.error = err.response.data.error
-            });
+            }).finally(()=>{
+                this.loading = false;
+                this.$router.push({name:'edit-personal-information'});
+            });;
         },
     }
 }

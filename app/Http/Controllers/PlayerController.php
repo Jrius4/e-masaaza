@@ -101,14 +101,14 @@ class PlayerController extends Controller
 
         $player = new Player();
 
-        $player->first_name=$request['first_name'];
-        $player->last_name=$request['last_name'];
-        $player->positions=$request['positions'];
-        $player->former_club=$request['former_club'];
+        $player->first_name=strtolower($request['first_name']);
+        $player->last_name=strtolower($request['last_name']);
+        $player->positions=strtolower($request['positions']);
+        $player->former_club=strtolower($request['former_club']);
         $player->years_played=$request['years_played'];
         $player->biography=$request['biography'];
         $player->phone=$request['phone'];
-        $player->status=$request['status'];
+        $player->status=strtolower($request['status']);
         $player->date_of_birth=$dob;
         $player->personal_number=$personal_number;
 

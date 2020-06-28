@@ -75,16 +75,16 @@
                                         <span v-if="item.club_id!==null || item.club_id!==''" style="text-transform:capitalize">{{item.club!==null? item.club.name : 'No Club'}}</span>
                                     </template>
                                     <template v-slot:item.action="{item}">
-                                    <v-icon small fab class="mr-2" color="blue" @click="viewItem(item)">
-                                        fa fa-eye
-                                    </v-icon>
-                                    <v-icon small fab class="mr-2" color="green" @click="editItem(item)">
-                                        fa fa-edit
-                                    </v-icon>
-                                    <v-icon small fab class="mr-2" color="red" @click="deleteItem(item)">
-                                        fa fa-trash
-                                    </v-icon>
-                                </template>
+                                        <v-icon small fab class="mr-2" color="blue" @click="viewItem(item)">
+                                            fa fa-eye
+                                        </v-icon>
+                                        <v-icon small fab class="mr-2" color="green" @click="editItem(item)">
+                                            fa fa-edit
+                                        </v-icon>
+                                        <v-icon small fab class="mr-2" color="red" @click="deleteItem(item)">
+                                            fa fa-trash
+                                        </v-icon>
+                                    </template>
 
 
 
@@ -494,7 +494,6 @@
                                                 </tr>
                                             </tbody>
                                         </table>
-
                                     </v-card-text>
                                     </base-material-card>
                                 </v-col>
@@ -702,6 +701,8 @@ export default {
             };
 
         },
+
+        
         createNewItem(){
             this.clubVal = null;
             if(this.selectedCreateItem !== null){
@@ -736,6 +737,7 @@ export default {
             }
 
         },
+
 
         viewItem(item){
 

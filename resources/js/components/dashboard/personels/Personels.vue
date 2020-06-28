@@ -51,6 +51,11 @@
                       cols="12" md="12"
                     >
                     <v-sheet min-height="80vh" class="overflow-y-auto">
+                       <v-row v-if="loadingView" align="center" justify="center">
+                          <v-col cols="12" sm="8" md="8">
+                              <loading-state/>
+                          </v-col>
+                      </v-row>
                       <v-container>
                         <router-view></router-view>
                       </v-container>
@@ -68,17 +73,48 @@
   </v-app>
 </template>
 <script>
+import {mapState,mapGetters} from 'vuex';
   export default{
+    
     name:"Personels",
     data:()=>({
-
+      loadingView:false,
     }),
+    computed:{
+
+      ...mapGetters([
+            'loggedIn',
+        //     'user'
+        ]),
+        ...mapState({
+            user:state=>state.user,
+        }),
+    },
+    beforeCreate(){
+        this.$store.dispatch('getUserAction');
+    },
     methods:{
       personalDetailEdit(){
-          this.$router.push({name:"edit-personal-information"})
+          let selectedUser = this.user;
+
+            this.loadingView = true;
+
+            this.$store.dispatch('GET_EDITOR_PERSONS_ACTION',selectedUser).finally(()=>{
+                this.loadingView = false;
+                this.$router.push({name:'edit-personal-information',params:{id:selectedUser.id}});
+            });
       },
        personalDetail(){
-          this.$router.push({name:"personel-profile"})
+          let selectedUser = this.user;
+
+            this.loadingView = true;
+
+            // this.$store.dispatch('GET_PERSON_ACTION',selectedUser.id).finally(()=>{
+                this.loadingView = false;
+                // this.$router.push({name:'persons'});
+                this.$router.push({name:'personel-profile'});
+
+            // });
       }
     }
   }

@@ -22,14 +22,23 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     // return $request->user();
     return $user;
 });
-Route::get('/users',function(){
+Route::middleware('auth:api')->get('/users',function(){
     return response()->json(['name'=>Auth::user()]);
 });
 Route::post('register', 'API\UserController@register');
-Route::post('login', 'API\UserController@login');
+Route::post('login', 'API\UserController@login')->name('login');
 Route::middleware('auth:api')->group(function(){
     Route::post('logout', 'API\UserController@logout');
     Route::resource('files', 'API\FileController');
+    //users
+    Route::get('persons','UserController@index');
+    Route::post('persons','UserController@store');
+    Route::get('persons/{person}','UserController@show');
+    Route::post('persons/{person}','UserController@update');
+    Route::delete('persons/{person}','UserController@destory');
+    Route::get('roles','UserController@getRoles');
+    Route::get('search-user','UserController@searchUser');
+    Route::get('password-user','UserController@passwordUser');
 
 });
 Route::post('/generate-token','API\UserController@generateToken');
@@ -44,3 +53,5 @@ Route::post('/clubs','ClubController@store');
 Route::post('/clubs/{id}','ClubController@update');
 Route::delete('/clubs/{id}','ClubController@destroy');
 Route::get('/clubs/{id}','ClubController@show');
+
+

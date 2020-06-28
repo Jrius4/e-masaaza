@@ -22,7 +22,7 @@
         </v-badge> -->
       </v-btn>
 
-      <v-toolbar-title  v-if="loggedIn && user!== null">{{user.name}}</v-toolbar-title>
+      <v-toolbar-title  v-if="user">{{user.name}}</v-toolbar-title>
 
       <v-btn icon  v-if="loggedIn">
         <v-icon>mdi-dots-vertical</v-icon>
@@ -70,7 +70,7 @@
 
 
             </v-list-item>
-            <v-list-item v-if="roleCheck('committee_secretary')" router>
+            <v-list-item v-if="roleCheck('committee_secretary')" :to="{name:'persons'}" router>
                 <v-list-item-action>
                     <v-icon small>fas fa-users</v-icon>
                 </v-list-item-action>
@@ -78,7 +78,7 @@
                     <v-list-item-title>Persons</v-list-item-title>
                 </v-list-item-content>
             </v-list-item>
-            <v-list-item v-if="roleCheck('committee_secretary')" router>
+            <!-- <v-list-item v-if="roleCheck('committee_secretary')" router>
                 <v-list-item-action>
                     <v-icon small>fas fa-briefcase</v-icon>
                 </v-list-item-action>
@@ -93,7 +93,7 @@
                 <v-list-item-content>
                     <v-list-item-title>Pitches</v-list-item-title>
                 </v-list-item-content>
-            </v-list-item>
+            </v-list-item> -->
             <v-list-item v-if="roleCheck('committee_secretary')" to="/players" router>
                 <v-list-item-action>
                     <v-icon small>mdi-account-group</v-icon>
@@ -130,12 +130,12 @@
                     <v-list-item-avatar class="ml-2">
                         <v-img src="/images/AdminLTELogo.png"></v-img>
                     </v-list-item-avatar>
-                    <v-list-item-action class="ml-8">
+                    <!-- <v-list-item-action class="ml-8">
                         <v-badge color="error" overlap>
                             <template slot="badge">400</template>
                             <v-icon color="tertiary">mdi-bell</v-icon>
                         </v-badge>
-                    </v-list-item-action>
+                    </v-list-item-action> -->
                 </v-list-item>
                 </v-list>
             </v-flex>
@@ -192,7 +192,7 @@ import {mapGetters,mapState} from 'vuex';
             let hasRole = null;
             if(user!==null){
                 let roles = user.roles;
-                
+
                 roles.forEach(element =>{
                     if(element.name === value){
                         hasRole = true;
@@ -213,14 +213,28 @@ import {mapGetters,mapState} from 'vuex';
     },
     computed:{
         ...mapGetters([
-            'loggedIn'
+            'loggedIn',
+        //     'user'
         ]),
         ...mapState({
             user:state=>state.user
         }),
+    
+    },
+    beforeCreate(){
+        this.$store.dispatch('getUserAction');
+    },
+    
+    watch:{
+        // $route(to,from,query){
+        //     let that = this;
+        //     this.user = that.user;
+        //     console.log({to,from,query,user:that.user})
+        // },
+        // roleCheck(value){
+        //     console.log(value)
+        // }
         
-
-
     }
   }
 </script>

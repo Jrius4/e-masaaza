@@ -11,9 +11,9 @@
 </head>
 <body class="hold-transition sidebar-mini dark">
     <div id="app">
-        <app/>
+        <app-layout></app-layout>
     </div>
 
-    <script async src="{{ mix('js/app.js') }}" defer></script>
+    <script defer src="{{ mix('js/app.js') }}"></script>
 </body>
 </html>

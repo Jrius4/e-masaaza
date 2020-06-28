@@ -61,6 +61,7 @@ Vue.use(axios);
 // Vue.component('profile-component', require('./components/ProfileComponent.vue').default);
 // Vue.component('admin-layout',require('./views/Layout/AdminLayout.vue').default)
 Vue.component('upload-files', require('./components/common/UploadFiles.vue').default);
+Vue.component('loading-state', require('./views/LoadingState.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -76,13 +77,10 @@ import './plugins/chartist'
 import './plugins/vee-validate'
 import vuetify from './plugins/vuetify';
 
-
-
 import moment from 'moment';
 Vue.use(moment);
 
 import App from './components/dashboard/App.vue';
-
 const app = new Vue({
     el: '#app',
     router,

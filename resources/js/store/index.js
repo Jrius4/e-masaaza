@@ -16,7 +16,8 @@ const store = new Vuex.Store({
         barColor: 'rgba(0, 0, 0, .8), rgba(0, 0, 0, .8)',
         barImage: 'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-1.jpg',
         drawer: null,
-
+        hasRole:false,
+        selectedPerson:null,
 
         //clubs
         clubs:[],
@@ -57,10 +58,23 @@ const store = new Vuex.Store({
         set4RuleStatus:[],
         //endfiles
 
+        //persons
+        persons:[],
+        personPagination:{
+            page:1,
+            rowsPerPage:10
+        },
+        personSortRowsBy:'id',
+        totalPersons:0,
+        // end persons,
+
     },
     getters:{
         loggedIn(state){
             return state.token !== null;
+        },
+        user(currentState){
+            return currentState.user || null;
         }
     },
     mutations:{
@@ -175,6 +189,42 @@ const store = new Vuex.Store({
 
         },
         // files end
+
+        //persons
+        SET_PERSON(currentState){
+            currentState.selectedPerson = {
+                name:'',
+                username:'',
+                avatar:'',
+                national_id:'',
+                certificates:'',
+                positions:'',
+                biography:'',
+                join_date:'',
+                biography:'',
+                email:'',
+                club_id:'',
+            };
+        },
+        GET_PERSONS(currentState,payload){
+            currentState.persons = payload.data;
+            currentState.personPagination.page = parseInt(payload.current_page);
+            currentState.personPagination.rowsPerPage =parseInt(payload.per_page);
+            currentState.totalPersons = parseInt(payload.total);
+        },
+
+        GET_EDITOR_PERSONS(currentState,payload){
+            currentState.selectedPerson = payload;
+            // context.commit('GET_EDITOR_PERSONS');
+        },
+        RETURN_TO_PERSONS_TABLE(currentState){
+            currentState.selectedPerson = null;
+        },
+        GET_PERSON(currentState,payload)
+        {
+            currentState.selectedPerson = payload;
+        }
+        //end persons
 
     },
     actions:{
@@ -342,6 +392,7 @@ const store = new Vuex.Store({
             }
         },
 
+
         async ADD_PLAYER_ACTION(context,payload){
 
             let formData = new FormData();
@@ -478,9 +529,220 @@ const store = new Vuex.Store({
 
         getClubsActions(context){
 
-        }
+        },
 
         // end clubs
+        //persons
+
+        async GET_PERSONS_ACTION(context,sortBy){
+            return new Promise((resolve,reject)=>{
+                if(context.getters.loggedIn){
+
+                let page_number = sortBy.page || context.state.personPagination.page;
+                let rowsPerPage = sortBy.rowsPerPage || context.state.personPagination.rowsPerPage;
+                let sortRowsBy =  sortBy.sortRowsBy || context.state.personSortRowsBy;
+                let sortDesc = sortBy.sortDesc|| false;
+
+                    Axios.get(`/api/persons?page=${page_number}&rowsPerPage=${rowsPerPage}`,{
+                        headers:{
+                            Authorization: "Bearer "+context.state.token
+                        },
+                        params:{
+                            query:sortBy.val,
+                            sortRowsBy:sortRowsBy,
+                            sortDesc:sortDesc
+                        }
+                    }).then(response=>{
+                        let persons = response.data.persons;
+                        context.commit('GET_PERSONS',persons);
+                        resolve(persons)
+                    }).catch(err=>{
+                        console.log(err);
+                        reject(err)
+                    })
+
+                }
+                else{
+                    reject('Not Authentication')
+                }
+            })
+        },
+        async GET_PERSON_ACTION(context,userID)
+        {
+           
+            return new Promise((resolve,reject)=>{
+                Axios.get(`/api/persons/${userID}`,{
+                    headers:{
+                        Authorization: "Bearer "+context.state.token
+                    },
+                }).then(res=>{
+
+                   let data = res.data.person;
+                   context.commit('GET_PERSON',data);
+                   resolve(data);
+                }).catch(err=>{
+                    console.log(err);
+                    reject(err);
+                })
+            });
+        },
+
+        async CHECK_USERNAME_ACTION(context,payload){
+            return new Promise((resolve,reject)=>{
+                Axios.get('/api/search-user',{
+                    headers:{
+                        Authorization: "Bearer "+context.state.token,
+                    },
+                    params:{
+                        username:payload.username,
+                        person_number:payload.person_number,
+                    }
+                }).then(res=>{
+                    resolve(res.data);
+                }).catch(err=>{
+                    console.log(err);
+                    resolve(res.err);
+                })
+            })
+        },
+
+        async CHECK_PASSWORD_ACTION(context,payload){
+            
+            return new Promise((resolve,reject)=>{
+                Axios.get('/api/password-user',{
+                    headers:{
+                        Authorization: "Bearer "+context.state.token,
+                    },
+                    params:{
+                        password_confirmation:payload.password_confirmation,
+                        password:payload.password,
+                        person_number:payload.person_number,
+                    }
+                }).then(res=>{
+                    resolve(res.data);
+                }).catch(err=>{
+                    console.log(err);
+                    resolve(res.err);
+                })
+            })
+        },
+
+         async SET_PERSON_ACTION(context){
+             context.commit('SET_PERSON');
+         },
+
+        async UPDATE_PERSON_ACTION(context,payload){
+            
+            const person_id = payload.personID;
+            const roles = payload.roles;
+            const password = payload.password;
+            const password_confirmation = payload.password_confirmation;
+            const personData = payload.person;
+
+
+            const formData = new FormData();
+            formData.append('avatar', personData.avatar|| '');
+            formData.append('name', personData.name|| '');
+            formData.append('username', personData.username|| '');
+            formData.append('national_id', personData.national_id|| '');
+            formData.append('certificates', personData.certificates|| '');
+            formData.append('positions', personData.positions|| '');
+            formData.append('email', personData.email|| '');
+            formData.append('biography', personData.biography|| '');
+            formData.append('club_id', personData.club_id|| '');
+            formData.append('phone', personData.phone|| '');
+            formData.append('join_date', personData.join_date|| '');
+            formData.append('roles', roles|| '');
+            formData.append('password', password|| '');
+            formData.append('password_confirmation', password_confirmation|| '');
+           
+
+            return new Promise((resolve,reject)=>{
+                Axios.post(`/api/persons/${person_id}`,formData,
+                {
+                    headers:{
+                        'Content-Type': "multipart/form-data; charset=utf-8; boundary=" + Math.random().toString().substr(2),
+                        Authorization: "Bearer "+context.state.token,
+                    }
+                }).then(response =>{
+                    let success = response.data;
+                   
+                    if(success.errorMessages){
+                        resolve(success);
+                    }
+                    else{
+                        context.commit('SET_FILES');
+                        resolve(success);
+                    }
+                    
+                })
+                .catch(err=>{
+                    console.log(err)
+                    reject(err)
+                });
+            });
+        },
+
+        
+        async ADD_PERSON_ACTION(context,payload){
+           
+            const roles = payload.roles;
+            const password = payload.password;
+            const password_confirmation = payload.password_confirmation;
+            const personData = payload.person;
+
+
+            const formData = new FormData();
+            formData.append('avatar', personData.avatar|| '');
+            formData.append('name', personData.name|| '');
+            formData.append('username', personData.username|| '');
+            formData.append('national_id', personData.national_id|| '');
+            formData.append('certificates', personData.certificates|| '');
+            formData.append('positions', personData.positions|| '');
+            formData.append('email', personData.email|| '');
+            formData.append('biography', personData.biography|| '');
+            formData.append('club_id', personData.club_id|| '');
+            formData.append('phone', personData.phone|| '');
+            formData.append('join_date', personData.join_date|| '');
+            formData.append('roles', roles|| '');
+            formData.append('password', password|| '');
+            formData.append('password_confirmation', password_confirmation|| '');
+
+            return new Promise((resolve,reject)=>{
+                Axios.post(`/api/persons`,formData,
+                {
+                    headers:{
+                        'Content-Type': "multipart/form-data; charset=utf-8; boundary=" + Math.random().toString().substr(2),
+                        Authorization: "Bearer "+context.state.token,
+                    }
+                }).then(response =>{
+                    let success = response.data;
+                    
+                    if(success.errorMessages){
+                        resolve(success);
+                    }
+                    else{
+                        context.commit('SET_FILES');
+                        context.commit('SET_PERSON');
+                        resolve(success);
+                    }
+                    
+                })
+                .catch(err=>{
+                    console.log(err)
+                    reject(err)
+                });
+            });
+        },
+
+        GET_EDITOR_PERSONS_ACTION(context,payload){
+            
+            context.commit('GET_EDITOR_PERSONS',payload);
+        },
+        RETURN_TO_PERSONS_TABLE_ACTION(context){
+            context.commit('RETURN_TO_PERSONS_TABLE');
+        },
+        //person end
     }
 })
 
