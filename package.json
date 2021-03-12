@@ -35,7 +35,7 @@
         "bootstrap-vue": "^2.15.0",
         "core-js": "^3.6.5",
         "faker": "^4.1.0",
-        "jspdf": "^1.5.3",
+        "jspdf": "^2.3.1",
         "laravel-echo": "^1.7.0",
         "moment": "^2.26.0",
         "popmotion": "^8.7.1",
